@@ -1,6 +1,6 @@
 # Convolutional Neural Networks
 
-This is the forth course of the deep learning specialization at [Coursera](https://www.coursera.org/specializations/deep-learning) which is moderated by [DeepLearning.ai](http://deeplearning.ai/). The course is taught by Andrew Ng.
+This is the fourth course of the deep learning specialization at [Coursera](https://www.coursera.org/specializations/deep-learning) which is moderated by [DeepLearning.ai](http://deeplearning.ai/). The course is taught by Andrew Ng.
 
 ## Table of contents
 
@@ -249,7 +249,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
       - `n2 = 17`, `nc2 = 20`
     - Hint shrinking goes much faster because the stride is 2
   - Third layer (Conv layer):
-    - `f3 = 5`, `s3 = 2`, `p2 = 0`
+    - `f3 = 5`, `s3 = 2`, `p3 = 0`
     - `number of filters = 40`
     - The output are `a3 = 7x7x40`
       - `n3 = 7`, `nc3 = 40`
@@ -301,7 +301,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
     - The output are `a2 = 10x10x16`
       - `n2 = 10`, `nc2 = 16`
     - Then apply (Max pooling):         `#Pool2`
-      - `f1p = 2`, and `s1p = 2`
+      - `f2p = 2`, and `s2p = 2`
       - The output are `a2 = 5x5x16`
   - Third layer (Fully connected)   `#FC3`
     - Number of neurons are 120
@@ -364,7 +364,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 
 - **AlexNet**
 
-  - Named after Alex Krizhevsky who was the first author of this paper. The other authors includes Jeoffery Hinton.
+  - Named after Alex Krizhevsky who was the first author of this paper. The other authors includes Geoffrey Hinton.
 
   - The goal for the model was the ImageNet challenge which classifies images into 1000 classes. Here are the drawing of the model:
 
@@ -462,7 +462,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 
   - Hint: dimensions of z[l+2] and a[l] have to be the same in resNets. In case they have different dimensions what we put a matrix parameters (Which can be learned or fixed)
 
-    - `a[l+2] = g( z[l+2] + ws * a[l] ) # The added Ws should make the dimentions equal`
+    - `a[l+2] = g( z[l+2] + ws * a[l] ) # The added Ws should make the dimensions equal`
     - ws also can be a zero padding.
 
 - Using a skip-connection helps the gradient to backpropagate and thus helps you to train deeper networks
@@ -1124,7 +1124,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 
 - Most of the implementation of faster R-CNN are still slower than YOLO.
 
-- Andew Ng thinks that the idea behind YOLO is better than R-CNN because you are able to do all the things in just one time instead of two times.
+- Andrew Ng thinks that the idea behind YOLO is better than R-CNN because you are able to do all the things in just one time instead of two times.
 
 - Other algorithms that uses one shot to get the output includes **SSD** and **MultiBox**.
 

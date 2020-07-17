@@ -51,15 +51,15 @@ This is the first course of the deep learning specialization at [Coursera](https
 
 Here are the course summary as its given on the course [link](https://www.coursera.org/learn/neural-networks-deep-learning):
 
-> If you want to break into cutting-edge AI, this course will help you do so. Deep learning engineers are highly sought after, and mastering deep learning will give you numerous new career opportunities. Deep learning is also a new "superpower" that will let you build AI systems that just weren't possible a few years ago. 
+> If you want to break into cutting-edge AI, this course will help you do so. Deep learning engineers are highly sought after, and mastering deep learning will give you numerous new career opportunities. Deep learning is also a new "superpower" that will let you build AI systems that just weren't possible a few years ago.
 >
 > In this course, you will learn the foundations of deep learning. When you finish this class, you will:
 > - Understand the major technology trends driving Deep Learning
-> - Be able to build, train and apply fully connected deep neural networks 
-> - Know how to implement efficient (vectorized) neural networks 
-> - Understand the key parameters in a neural network's architecture 
+> - Be able to build, train and apply fully connected deep neural networks
+> - Know how to implement efficient (vectorized) neural networks
+> - Understand the key parameters in a neural network's architecture
 >
-> This course also teaches you how Deep Learning actually works, rather than presenting only a cursory or surface-level description. So after completing it, you will be able to apply deep learning to a your own applications. If you are looking for a job in AI, after this course you will also be able to answer basic interview questions. 
+> This course also teaches you how Deep Learning actually works, rather than presenting only a cursory or surface-level description. So after completing it, you will be able to apply deep learning to a your own applications. If you are looking for a job in AI, after this course you will also be able to answer basic interview questions.
 
 
 
@@ -69,15 +69,24 @@ Here are the course summary as its given on the course [link](https://www.course
 
 ### What is a (Neural Network) NN?
 
-- Single neuron == linear regression
+- Single neuron == linear regression without applying activation(perceptron)
+- Basically a single neuron will calculate weighted sum of input(W.T*X) and then we can set a threshold to predict output in a perceptron. If weighted sum of input cross the threshold, perceptron fires and if not then perceptron doesn't predict.
+- Perceptron can take real values input or boolean values.
+- Actually, when w⋅x+b=0 the perceptron outputs 0.
+- Disadvantage of perceptron is that it only output binary values and if we try to give small change in weight and bais then perceptron can flip the output. We need some system which can modify the output slightly according to small change in weight and bias. Here comes sigmoid function in picture.
+- If we change perceptron with a sigmoid function, then we can make slight change in output.
+- e.g. output in perceptron = 0, you slightly changed weight and bias, output becomes = 1 but actual output is 0.7. In case of sigmoid, output1 = 0, slight change in weight and bias, output = 0.7. 
+- If we apply sigmoid activation function then Single neuron will act as Logistic Regression.
+-  we can understand difference between perceptron and sigmoid function by looking at sigmoid function graph.
+
 - Simple NN graph:
   - ![](Images/Others/01.jpg)
-  - Image taken from [tutorialspoint.com](tutorialspoint.com)
+  - Image taken from [tutorialspoint.com](http://www.tutorialspoint.com/)
 - RELU stands for rectified linear unit is the most popular activation function right now that makes deep NNs train faster now.
 - Hidden layers predicts connection between inputs automatically, thats what deep learning is good at.
 - Deep NN consists of more hidden layers (Deeper layers)
   - ![](Images/Others/02.png)
-  - Image taken from [opennn.net](opennn.net)
+  - Image taken from [opennn.net](http://www.opennn.net/)
 - Each Input will be connected to the hidden layer and the NN will decide the connections.
 - Supervised learning means we have the (X,Y) and we need to get the function that maps X to Y.
 
@@ -143,7 +152,7 @@ Here are the course summary as its given on the course [link](https://www.course
   - Simple equation:	`y = wx + b`
   - If x is a vector: `y = w(transpose)x + b`
   - If we need y to be in between 0 and 1 (probability): `y = sigmoid(w(transpose)x + b)`
-  - In some notations this might be used: `y = sigmoid(w(transpose)x)` 
+  - In some notations this might be used: `y = sigmoid(w(transpose)x)`
     - While `b` is `w0` of `w` and we add `x0 = 1`. but we won't use this notation in the course (Andrew said that the first notation is better).
 - In binary classification `Y` has to be between `0` and `1`.
 - In the last equation `w` is a vector of `Nx` and `b` is a real number
@@ -166,7 +175,7 @@ Here are the course summary as its given on the course [link](https://www.course
 - First we initialize `w` and `b` to 0,0 or initialize them to a random value in the convex function and then try to improve the values the reach minimum value.
 - In Logistic regression people always use 0,0 instead of random.
 - The gradient decent algorithm repeats: `w = w - alpha * dw`
-  where alpha is the learning rate and `dw` is the derivative of `w` (Change to `w`) 
+  where alpha is the learning rate and `dw` is the derivative of `w` (Change to `w`)
   The derivative is also the slope of `w`
 - Looks like greedy algorithms. the derivative give us the direction to improve our parameters.
 
@@ -218,13 +227,13 @@ Here are the course summary as its given on the course [link](https://www.course
 - Lets say we have these variables:
 
   ```
-  	X1					Feature
+  	X1                  Feature
   	X2                  Feature
   	W1                  Weight of the first feature.
   	W2                  Weight of the second feature.
   	B                   Logistic Regression parameter.
   	M                   Number of training examples
-  	Y(i)				Expected output of i
+  	Y(i)                Expected output of i
   ```
 
 - So we have:
@@ -237,7 +246,7 @@ Here are the course summary as its given on the course [link](https://www.course
   	d(z)  = d(l)/d(z) = a - y
   	d(W1) = X1 * d(z)
   	d(W2) = X2 * d(z)
-  	d(B) = d(z)
+  	d(B)  = d(z)
   ```
 
 - From the above we can conclude the logistic regression pseudo code:
@@ -250,7 +259,7 @@ Here are the course summary as its given on the course [link](https://www.course
   		z(i) = W1*x1(i) + W2*x2(i) + b
   		a(i) = Sigmoid(z(i))
   		J += (Y(i)*log(a(i)) + (1-Y(i))*log(1-a(i)))
-  		
+
   		# Backward pass
   		dz(i) = a(i) - Y(i)
   		dw1 += dz(i) * x1(i)
@@ -260,11 +269,11 @@ Here are the course summary as its given on the course [link](https://www.course
   	dw1/= m
   	dw2/= m
   	db/= m
-  	
+
   	# Gradient descent
-  	w1 = w1 - alpa * dw1
-  	w2 = w2 - alpa * dw2
-  	b = b - alpa * db
+  	w1 = w1 - alpha * dw1
+  	w2 = w2 - alpha * dw2
+  	b = b - alpha * db
   ```
 
 - The above code should run for some iterations to minimize error.
@@ -302,6 +311,7 @@ Here are the course summary as its given on the course [link](https://www.course
 - In NumPy, `obj.reshape(1,4)` changes the shape of the matrix by broadcasting the values.
 - Reshape is cheap in calculations so put it everywhere you're not sure about the calculations.
 - Broadcasting works when you do a matrix operation with matrices that doesn't match for the operation, in this case NumPy automatically makes the shapes ready for the operation by broadcasting the values.
+- In general principle of broadcasting. If you have an (m,n) matrix and you add(+) or subtract(-) or multiply(*) or divide(/) with a (1,n) matrix, then this will copy it m times into an (m,n) matrix. The same with if you use those operations with a (m , 1) matrix, then this will copy it n times into (m, n) matrix. And then apply the addition, subtraction, and multiplication of division element wise.
 - Some tricks to eliminate all the strange bugs in the code:
   - If you didn't specify the shape of a vector, it will take a shape of `(m,)` and the transpose operation won't work. You have to reshape it to `(m, 1)`
   - Try to not use the rank one matrix in ANN
@@ -343,7 +353,7 @@ Here are the course summary as its given on the course [link](https://www.course
 
 > Learn to build a neural network with one hidden layer, using forward propagation and backpropagation.
 
-### Neural Networks Overview 
+### Neural Networks Overview
 
 - In logistic regression we had:
 
@@ -357,7 +367,7 @@ Here are the course summary as its given on the course [link](https://www.course
 
   ```
   X1  \  
-  X2   =>  z1 = XW1 + B1 => a1 = Sigmoid(a1) => z2 = a1W2 + B2 => a2 = Sigmoid(z2) => l(a2,Y)
+  X2   =>  z1 = XW1 + B1 => a1 = Sigmoid(z1) => z2 = a1W2 + B2 => a2 = Sigmoid(z2) => l(a2,Y)
   X3  /
   ```
 
@@ -387,7 +397,7 @@ Here are the course summary as its given on the course [link](https://www.course
     - `b1` is the matrix of the first hidden layer, it has a shape of `(noOfHiddenNeurons,1)`
     - `z1` is the result of the equation `z1 = W1*X + b`, it has a shape of `(noOfHiddenNeurons,1)`
     - `a1` is the result of the equation `a1 = sigmoid(z1)`, it has a shape of `(noOfHiddenNeurons,1)`
-    - `W2` is the matrix of the second hidden layer, it has a shape of `(1,noOfHiddenLayers)`
+    - `W2` is the matrix of the second hidden layer, it has a shape of `(1,noOfHiddenNeurons)`
     - `b2` is the matrix of the second hidden layer, it has a shape of `(1,1)`
     - `z2` is the result of the equation `z2 = W2*a1 + b`, it has a shape of `(1,1)`
     - `a2` is the result of the equation `a2 = sigmoid(z2)`, it has a shape of `(1,1)`
@@ -462,7 +472,7 @@ Here are the course summary as its given on the course [link](https://www.course
 - Derivation of Sigmoid activation function:
 
   ```
-  g(z) = 1 / (1 + np.exp(-z))
+  g(z)  = 1 / (1 + np.exp(-z))
   g'(z) = (1 / (1 + np.exp(-z))) * (1 - (1 / (1 + np.exp(-z))))
   g'(z) = g(z) * (1 - g(z))
   ```
@@ -642,7 +652,7 @@ Here are the course summary as its given on the course [link](https://www.course
   dZ[l] = dA[l] * g'[l](Z[l])
   dW[l] = (dZ[l]A[l-1].T) / m
   db[l] = sum(dZ[l])/m                # Dont forget axis=1, keepdims=True
-  dA[l-1] = w[l].T * dZ[1]            # The multiplication here are a dot product.
+  dA[l-1] = w[l].T * dZ[l]            # The multiplication here are a dot product.
   Output dA[l-1], dW[l], db[l]
   ```
 
@@ -681,7 +691,7 @@ Here are the course summary as its given on the course [link](https://www.course
 - Ian is mainly working with generative models. He is the creator of GANs.
 - We need to stabilize GANs. Stabilized GANs can become the best generative models.
 - Ian wrote the first textbook on the modern version of deep learning with Yoshua Bengio and Aaron Courville.
-- Ian worked with [OpenAI.com](OpenAI.com) and Google on ML and NN applications.
+- Ian worked with [OpenAI.com](https://openai.com/) and Google on ML and NN applications.
 - Ian tells all who wants to get into AI to get a Ph.D. or post your code on Github and the companies will find you.
 - Ian thinks that we need to start anticipating security problems with ML now and make sure that these algorithms are secure from the start instead of trying to patch it in retroactively years later.
 
@@ -692,4 +702,3 @@ Here are the course summary as its given on the course [link](https://www.course
 <br><br>
 <br><br>
 These Notes were made by [Mahmoud Badry](mailto:mma18@fayoum.edu.eg) @2017
-

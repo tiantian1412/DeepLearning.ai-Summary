@@ -132,7 +132,7 @@ Here are the course summary as its given on the course [link](https://www.course
   - `||W|| = Sum(|w[i,j]|)  # sum of absolute values of all w`
 - L2 matrix norm because of arcane technical math reasons is called Frobenius norm:
   - `||W||^2 = Sum(|w[i,j]|^2)	# sum of all w squared`
-  - Also can be calculated as `||W||^2 = W.T * W`
+  - Also can be calculated as `||W||^2 = W.T * W if W is a vector`
 - Regularization for logistic regression:
   - The normal cost function that we want to minimize is: `J(w,b) = (1/m) * Sum(L(y(i),y'(i)))`
   - The L2 regularization version: `J(w,b) = (1/m) * Sum(L(y(i),y'(i))) + (lambda/2m) * Sum(|w[i]|^2)`
@@ -193,7 +193,7 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
   keep_prob = 0.8   # 0 <= keep_prob <= 1
   l = 3  # this code is only for layer 3
   # the generated number that are less than 0.8 will be dropped. 80% stay, 20% dropped
-  d3 = np.random.randn(a[l].shape[0], a[l].shape[1]) < keep_prob
+  d3 = np.random.rand(a[l].shape[0], a[l].shape[1]) < keep_prob
 
   a3 = np.multiply(a3,d3)   # keep only the values in d3
 
@@ -299,7 +299,7 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
   ```
   np.random.rand(shape) * np.sqrt(2/n[l-1])
   ```
-- Number 1 or 2 in the nominator can also be a hyperparameter to tune (but not the first to start with)
+- Number 1 or 2 in the neumerator can also be a hyperparameter to tune (but not the first to start with)
 - This is one of the best way of partially solution to Vanishing / Exploding gradients (ReLU + Weight Initialization with variance) which will help gradients not to vanish/explode too quickly
 - The initialization in this video is called "He Initialization / Xavier Initialization" and has been published in 2015 paper.
 
@@ -312,7 +312,7 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
 - Implementation of this is very simple.
 - Gradient checking:
   - First take `W[1],b[1],...,W[L],b[L]` and reshape into one big vector (`theta`)
-  - The cost function will be `L(theta)`
+  - The cost function will be `J(theta)`
   - Then take `dW[1],db[1],...,dW[L],db[L]` into one big vector (`d_theta`)
   - **Algorithm**:   
     ```
@@ -337,9 +337,9 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
 
 ### Initialization summary
 
-- The weights $W^{[l]}$ should be initialized randomly to break symmetry
+- The weights W<sup>[l]</sup> should be initialized randomly to break symmetry
 
-- It is however okay to initialize the biases $b^{[l]}$ to zeros. Symmetry is still broken so long as $W^{[l]}$ is initialized randomly
+- It is however okay to initialize the biases b<sup>[l]</sup> to zeros. Symmetry is still broken so long as W<sup>[l]</sup> is initialized randomly
 
 - Different initializations lead to different results
 
@@ -351,34 +351,29 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
 
 ### Regularization summary
 
-####1. L2 Regularization
+#### 1. L2 Regularization   
+**Observations**:   
+  - The value of λ is a hyperparameter that you can tune using a dev set.
+  - L2 regularization makes your decision boundary smoother. If λ is too large, it is also possible to "oversmooth", resulting in a model with high bias.
 
-**Observations**:
+**What is L2-regularization actually doing?**:   
+  - L2-regularization relies on the assumption that a model with small weights is simpler than a model with large weights. Thus, by penalizing the square values of the weights in the cost function you drive all the weights to smaller values. It becomes too costly for the cost to have large weights! This leads to a smoother model in which the output changes more slowly as the input changes.
 
-- The value of λ is a hyperparameter that you can tune using a dev set.
-- L2 regularization makes your decision boundary smoother. If λ is too large, it is also possible to "oversmooth", resulting in a model with high bias.
-
-**What is L2-regularization actually doing?**:
-
-L2-regularization relies on the assumption that a model with small weights is simpler than a model with large weights. Thus, by penalizing the square values of the weights in the cost function you drive all the weights to smaller values. It becomes too costly for the cost to have large weights! This leads to a smoother model in which the output changes more slowly as the input changes.
-
-**What you should remember:** — the implications of L2-regularization on:
-
-- The cost computation:
-  - A regularization term is added to the cost
-- The backpropagation function:
-  - There are extra terms in the gradients with respect to weight matrices
-- Weights end up smaller ("weight decay"):
-  - Weights are pushed to smaller values.
-
-#### 2. Dropout
-
-**What you should remember about dropout:**
-
+**What you should remember:**   
+Implications of L2-regularization on:
+  - cost computation:
+    - A regularization term is added to the cost
+  - backpropagation function:
+    - There are extra terms in the gradients with respect to weight matrices
+  - weights:
+    - weights end up smaller ("weight decay") - are pushed to smaller values.
+    
+#### 2. Dropout   
+**What you should remember about dropout:**   
 - Dropout is a regularization technique.
 - You only use dropout during training. Don't use dropout (randomly eliminate nodes) during test time.
 - Apply dropout both during forward and backward propagation.
-- During training time, divide each dropout layer by keep_prob to keep the same expected value for the activations. For example, if keep_prob is 0.5, then we will on average shut down half the nodes, so the output will be scaled by 0.5 since only the remaining half are contributing to the solution. Dividing by 0.5 is equivalent to multiplying by 2. Hence, the output now has the same expected value. You can check that this works even when keep_prob is other values than 0.5.
+- During training time, divide each dropout layer by keep_prob to keep the same expected value for the activations. For example, if `keep_prob` is 0.5, then we will on average shut down half the nodes, so the output will be scaled by 0.5 since only the remaining half are contributing to the solution. Dividing by 0.5 is equivalent to multiplying by 2. Hence, the output now has the same expected value. You can check that this works even when keep_prob is other values than 0.5.
 
 
 ## Optimization algorithms
@@ -465,6 +460,7 @@ L2-regularization relies on the assumption that a model with small weights is si
     - `beta = 0.98` will average last 50 entries
     - `beta = 0.5` will average last 2 entries
 - Best beta average for our case is between 0.9 and 0.98
+- **Intuition**: The reason why exponentially weighted averages are useful for further optimizing gradient descent algorithm is that it can give different weights to recent data points (`theta`) based on value of `beta`. If `beta` is high (around 0.9), it smoothens out the averages of skewed data points (oscillations w.r.t. Gradient descent terminology). So this reduces oscillations in gradient descent and hence makes faster and smoother path towerds minima.
 - Another imagery example:   
     ![](Images/Nasdaq1_small.png)   
     _(taken from [investopedia.com](https://www.investopedia.com/))_
@@ -609,7 +605,7 @@ L2-regularization relies on the assumption that a model with small weights is si
   6. Learning rate decay.
   7. Regularization lambda.
   8. Activation functions.
-  9. Adam `beta1` & `beta2`.
+  9. Adam `beta1`, `beta2` & `epsilon`.
 - Its hard to decide which hyperparameter is the most important in a problem. It depends a lot on your problem.
 - One of the ways to tune is to sample a grid with `N` hyperparameter settings and then try all settings combinations on your problem.
 - Try random values: don't use a grid.
@@ -655,19 +651,19 @@ L2-regularization relies on the assumption that a model with small weights is si
 - In the rise of deep learning, one of the most important ideas has been an algorithm called **batch normalization**, created by two researchers, Sergey Ioffe and Christian Szegedy.
 - Batch Normalization speeds up learning.
 - Before we normalized input by subtracting the mean and dividing by variance. This helped a lot for the shape of the cost function and for reaching the minimum point faster.
-- The question is: *for any hidden layer can we normalize `A[l]` to train `W[l]`, `b[l]` faster?* This is what batch normalization is about.
+- The question is: *for any hidden layer can we normalize `A[l]` to train `W[l+1]`, `b[l+1]` faster?* This is what batch normalization is about.
 - There are some debates in the deep learning literature about whether you should normalize values before the activation function `Z[l]` or after applying the activation function `A[l]`. In practice, normalizing `Z[l]` is done much more often and that is what Andrew Ng presents.
 - Algorithm:
   - Given `Z[l] = [z(1), ..., z(m)]`, i = 1 to m (for each input)
   - Compute `mean = 1/m * sum(z[i])`
   - Compute `variance = 1/m * sum((z[i] - mean)^2)`
-  - Then `Z_norm[i] = (z(i) - mean) / np.sqrt(variance + epsilon)` (add `epsilon` for numerical stability if variance = 0)
+  - Then `Z_norm[i] = (z[i] - mean) / np.sqrt(variance + epsilon)` (add `epsilon` for numerical stability if variance = 0)
     - Forcing the inputs to a distribution with zero mean and variance of 1.
   - Then `Z_tilde[i] = gamma * Z_norm[i] + beta`
     - To make inputs belong to other distribution (with other mean and variance).
     - gamma and beta are learnable parameters of the model.
     - Making the NN learn the distribution of the outputs.
-    - _Note:_ if `gamma = sqrt(variance + epsilon)` and `beta = mean` then `Z_tilde[i] = Z_norm[i]`
+    - _Note:_ if `gamma = sqrt(variance + epsilon)` and `beta = mean` then `Z_tilde[i] = z[i]`
 
 ### Fitting Batch Normalization into a neural network
 
